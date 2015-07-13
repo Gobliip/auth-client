@@ -1,4 +1,4 @@
-package com.gobliip.auth.client;
+package com.gobliip.auth.client.retrofit;
 
 import retrofit.RequestInterceptor;
 

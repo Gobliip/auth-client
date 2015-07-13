@@ -1,6 +1,6 @@
 package com.gobliip.auht.client;
 
-import com.gobliip.auth.client.OAuthBasicAuthInterceptor;
+import com.gobliip.auth.client.retrofit.OAuthBasicAuthInterceptor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
