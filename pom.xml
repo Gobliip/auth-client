@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <retrofit.cloud.version>0.0.1-RELEASE</retrofit.cloud.version>
     </properties>
 
     <dependencies>
@@ -23,10 +24,17 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.squareup.retrofit</groupId>
             <artifactId>retrofit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.gobliip.retrofit.cloud</groupId>
+            <artifactId>retrofit-cloud</artifactId>
+            <version>${retrofit.cloud.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
