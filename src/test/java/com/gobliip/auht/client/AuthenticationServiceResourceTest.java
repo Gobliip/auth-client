@@ -28,8 +28,6 @@ import static org.mockserver.model.HttpResponse.response;
  */
 public class AuthenticationServiceResourceTest {
 
-    private ClientAndServer mockServer;
-
     private static final String GET_TOKEN_RESPONSE =
             "{\"access_token\":\"ACCESS_TOKEN\"," +
             "\"token_type\":\"bearer\"," +
@@ -37,6 +35,8 @@ public class AuthenticationServiceResourceTest {
             "\"expires_in\":43199," +
             "\"scope\":\"openid\"," +
             "\"jti\":\"d4b6b281-e745-4346-aa26-d97de3d8a585\"}";
+
+    private ClientAndServer mockServer;
 
     @Before
     public void startProxy() {

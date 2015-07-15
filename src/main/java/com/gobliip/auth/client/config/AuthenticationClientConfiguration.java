@@ -3,7 +3,9 @@ package com.gobliip.auth.client.config;
 import com.gobliip.auth.client.AuthenticationClient;
 import com.gobliip.auth.client.AuthenticationClientImpl;
 import com.gobliip.auth.client.retrofit.AuthenticationServiceResource;
-import com.gobliip.auth.client.retrofit.OAuthBasicAuthInterceptor;
+import com.gobliip.retrofit.oauth2.BasicAuthCredentialsStore;
+import com.gobliip.retrofit.oauth2.InMemoryBasicAuthCredentialsStore;
+import com.gobliip.retrofit.oauth2.OAuthBasicAuthInterceptor;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,7 +32,7 @@ public class AuthenticationClientConfiguration {
     private String endpoint;
 
     @Autowired(required = false)
-    private OAuthBasicAuthInterceptor oAuthBasicInterceptor;
+    private BasicAuthCredentialsStore credentialsStore;
 
     @Bean
     public AuthenticationClient authenticationClient(){
@@ -62,8 +64,13 @@ public class AuthenticationClientConfiguration {
 
     @Bean
     public OAuthBasicAuthInterceptor oAuthBasicInterceptor(){
-        if (oAuthBasicInterceptor != null) return oAuthBasicInterceptor;
-        return new OAuthBasicAuthInterceptor(clientId, clientSecret);
+        return new OAuthBasicAuthInterceptor(credentialsStore());
+    }
+
+    @Bean
+    public BasicAuthCredentialsStore credentialsStore(){
+        if(credentialsStore != null) return credentialsStore;
+        return new InMemoryBasicAuthCredentialsStore(clientId, clientSecret);
     }
 
 }
