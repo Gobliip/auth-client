@@ -1,7 +1,6 @@
 package com.gobliip.auth.client.config;
 
 import com.gobliip.auth.client.AuthenticationClient;
-import com.gobliip.auth.client.AuthenticationClientImpl;
 import com.gobliip.auth.client.retrofit.AuthenticationServiceResource;
 import com.gobliip.retrofit.cloud.endpoint.RoundRobinEndpoint;
 import com.gobliip.retrofit.cloud.oauth2.basic.BasicAuthCredentialsStore;
@@ -48,21 +47,21 @@ public class AuthenticationClientConfiguration {
     private DiscoveryClient discoveryClient;
 
     @Bean
-    public AuthenticationClient authenticationClient(){
-        return new AuthenticationClientImpl(authenticationServiceResource());
+    public AuthenticationClient authenticationClient(AuthenticationServiceResource authenticationServiceResource){
+        return new AuthenticationClient(authenticationServiceResource);
     }
 
     @Bean
-    public AuthenticationServiceResource authenticationServiceResource(){
-        return restAdapter().create(AuthenticationServiceResource.class);
+    public AuthenticationServiceResource authenticationServiceResource(RestAdapter restAdapter){
+        return restAdapter.create(AuthenticationServiceResource.class);
     }
 
     @Bean
-    public RestAdapter restAdapter(){
+    public RestAdapter restAdapter(OAuthBasicAuthInterceptor oAuthBasicInterceptor, Gson gson){
         final RestAdapter restAdapter = new RestAdapter.Builder()
-                .setConverter(new GsonConverter(gson()))
-                .setEndpoint(authenticationEndpoint())
-                .setRequestInterceptor(oAuthBasicInterceptor())
+                .setConverter(new GsonConverter(gson))
+                .setEndpoint(endpoint)
+                .setRequestInterceptor(oAuthBasicInterceptor)
                 .build();
         return restAdapter;
     }
