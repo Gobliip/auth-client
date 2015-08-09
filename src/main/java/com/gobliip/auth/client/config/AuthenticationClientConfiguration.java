@@ -10,6 +10,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.annotation.Bean;
@@ -52,14 +53,14 @@ public class AuthenticationClientConfiguration {
     }
 
     @Bean
-    public AuthenticationServiceResource authenticationServiceResource(RestAdapter restAdapter){
+    public AuthenticationServiceResource authenticationServiceResource(@Qualifier("authClientRestAdapter") RestAdapter restAdapter){
         return restAdapter.create(AuthenticationServiceResource.class);
     }
 
     @Bean
-    public RestAdapter restAdapter(OAuthBasicAuthInterceptor oAuthBasicInterceptor, Gson gson){
+    public RestAdapter authClientRestAdapter(OAuthBasicAuthInterceptor oAuthBasicInterceptor, Gson authClientGson){
         final RestAdapter restAdapter = new RestAdapter.Builder()
-                .setConverter(new GsonConverter(gson))
+                .setConverter(new GsonConverter(authClientGson))
                 .setEndpoint(endpoint)
                 .setRequestInterceptor(oAuthBasicInterceptor)
                 .build();
@@ -67,7 +68,7 @@ public class AuthenticationClientConfiguration {
     }
 
     @Bean
-    public Gson gson(){
+    public Gson authClientGson(){
         final Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
